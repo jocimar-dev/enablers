@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  enablers-api:
+    build: .
+    image: jocimar191016/enablers_db
+    container_name: enablers_db
+    ports:
+      - 8081:8081
+    depends_on:
+      - enablersdb
+    environment:
+      - DATABASE_URL=jdbc:mysql://enablersdb:3306/enablersdb?createDatabaseIfNotExist=true
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=root
+
+  enablersdb:
+    image: 'mysql:5.7'
+    volumes:
+      - enablersdb-mysql-volume:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_USER: mysql
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_DB: mysql
+
+volumes:
+  enablersdb-mysql-volume:
+  mysql-volume:
